@@ -1,0 +1,23 @@
+{
+    "id": "String",
+    "creator": "String",
+    "deck": [
+        "String (color-num / color-special / wild-special)"
+    ],
+    "status": {
+        "iteration": "Integer",
+        "direction": "Integer (0 = forward, 1 = backward)",
+        "gameStatus": "Integer (0 = not yet started, 1 = started, 2 = finished)",
+        "topCard": "String (color-num / color-special / wild-special)"
+    },
+    "players": [
+        {
+            "id": "String",
+            "name": "String",
+            "cards": [
+                "String (color-num / color-special / wild-special)"
+            ],
+            "punished": "Boolean"
+        }
+    ]
+}
