@@ -7,6 +7,7 @@ module.exports = {
         direction: Number,
         gameStatus: Number,
         topCard: String,
+        color: String,
     },
     players: [
         {
