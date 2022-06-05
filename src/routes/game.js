@@ -37,7 +37,27 @@ router.post("/api/game/join/:id", async (req, res) => {
 
         res.status(200).send({ message: `Player ${player.id} joined Game ${gameID} successfully!` });
     } catch (err) {
-        console.log("ROUTE ERROR (/api/game/create)", err);
+        console.log("ROUTE ERROR (/api/game/join)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
+
+// start an existing game
+router.post("/api/game/start/:id", async (req, res) => {
+    // acquire player and game information
+    const player = req.body.player;
+    const gameID = req.params.id;
+    try {
+        const reply = await Game.StartGame(player, gameID, req.app.get("socketio"));
+
+        // respond 404 if game is null
+        if (reply === null) {
+            res.status(404).send({ message: `Game ${gameID} Not Found!` });
+        }
+
+        res.status(200).send({ message: `Game ${gameID} has been successfully started!` });
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/start)", err);
         res.status(500).send({ message: "Server Error!" });
     }
 });
