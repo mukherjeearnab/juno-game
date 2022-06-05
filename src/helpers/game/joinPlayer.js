@@ -10,6 +10,10 @@ module.exports = async (player, gameID, socket) => {
             throw new Error("Game not found!");
         }
 
+        if (game.status.gameStatus > 0) {
+            throw new Error("Game already started or finished!");
+        }
+
         const newPlayer = {
             id: player.id,
             name: player.name,
