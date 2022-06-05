@@ -23,24 +23,23 @@ router.post("/api/game/create", async (req, res) => {
 });
 
 // join an existing game
-// router.post("/api/game/join/:id", async (req, res) => {
-//     // acquire player and creator information
-//     const player = req.body.player;
-//     try {
-//         // find the game
-//         const game = GameDB.findOne({ id: req.params.id }).exec();
-//         // respond 404 if game is null
-//         if (game === null) {
-//             res.status(404).send({ message: `Game ${req.params.id} Not Found!` });
-//         }
+router.post("/api/game/join/:id", async (req, res) => {
+    // acquire player and game information
+    const player = req.body.player;
+    const gameID = req.params.id;
+    try {
+        const reply = await Game.JoinPlayer(player, gameID, req.app.get("socketio"));
 
-//         const gameUpdate = Game.JoinPlayer(player);
+        // respond 404 if game is null
+        if (reply === null) {
+            res.status(404).send({ message: `Game ${gameID} Not Found!` });
+        }
 
-//         await GameDB.updateOne({ name: "Jean-Luc Picard" }, { ship: "USS Enterprise" });
-//     } catch (err) {
-//         console.log("ROUTE ERROR (/api/game/create)", err);
-//         res.status(500).send({ message: "Server Error!" });
-//     }
-// });
+        res.status(200).send({ message: `Player ${player.id} joined Game ${gameID} successfully!` });
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/create)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
 
 module.exports = router;
