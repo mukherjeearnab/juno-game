@@ -1,5 +1,5 @@
 const GameDB = require("../../models/game");
-const { players } = require("../../models/json/game-model");
+const Utils = require("./util");
 
 module.exports = async (player, gameID, socket) => {
     try {
@@ -21,6 +21,11 @@ module.exports = async (player, gameID, socket) => {
             throw new Error("Player requesting to start game is not the game creator!");
         }
 
+        // check if enough players are present, i.e. players > 1
+        if (game.players.length < 2) {
+            throw new Error("Not Enough players to start game!");
+        }
+
         // change game status to started (1)
         game.status.gameStatus = 1;
 
@@ -31,13 +36,18 @@ module.exports = async (player, gameID, socket) => {
         }
 
         // set top card
-        game.status.topCard = game.deck.shift();
+        game.status.topCard = Utils.SelectFirstTopCard(game);
+
+        // set next player
+        game.status.nextPlayer = 1;
 
         // update game instance in DB
         await GameDB.updateOne({ id: gameID }, game);
 
         // emit event of new player added
         socket.to(gameID).emit("update", `game started`);
+
+        console.log(`GAME ${gameID} has been started!`);
 
         return gameID;
     } catch (err) {

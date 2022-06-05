@@ -30,6 +30,8 @@ module.exports = async (player, gameID, socket) => {
         // emit event of new player added
         socket.to(gameID).emit("player-join", `Welcome Player ${player.id}!`);
 
+        console.log(`${player.id} JOINED GAME ${gameID}`);
+
         return gameID;
     } catch (err) {
         console.error(err);

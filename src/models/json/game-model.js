@@ -8,6 +8,7 @@ module.exports = {
         gameStatus: Number,
         topCard: String,
         color: String,
+        nextPlayer: Number,
     },
     players: [
         {
