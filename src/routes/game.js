@@ -1,29 +1,16 @@
 const express = require("express");
-var shortHash = require("short-hash");
 
-const createGame = require("../helpers/createGame");
-const Game = require("../models/game");
+const Game = require("../helpers/game");
+const GameDB = require("../models/game");
 
 const router = new express.Router();
 
 router.post("/api/game/create", async (req, res) => {
     // acquire player and creator information
     const player = req.body.player;
-    const creator = {
-        id: player.id,
-        name: player.name,
-        cards: [],
-        punished: false,
-    };
-
-    const game = createGame();
-
-    game.players.push(creator);
-    game.creator = creator.id;
-    game.id = shortHash(JSON.stringify(game));
-
+    const game = Game.CreateGame(player);
     try {
-        Game.create(game, function (err, doc) {
+        GameDB.create(game, function (err, doc) {
             if (err) {
                 console.log("MONGOOSE ERROR", err);
                 res.status(500).send({ message: "Database error!" });
