@@ -29,4 +29,20 @@ const SelectFirstTopCard = (game) => {
     }
 };
 
-module.exports = { Shuffle, SelectFirstTopCard };
+// function to get next player index
+const GetNextPlayerIndex = (game, skip) => {
+    if (game.status.direction === 1) {
+        return (game.status.nextPlayer + (game.players.length - skip)) % game.players.length;
+    } else {
+        return (game.status.nextPlayer + skip) % game.players.length;
+    }
+};
+
+// function to get player index from player id
+const GetPlayerIndexFromID = (playerID, game) => {
+    for (let i = 0; i < game.players.length; i++) {
+        if (game.players[i].id === playerID) return i;
+    }
+};
+
+module.exports = { Shuffle, SelectFirstTopCard, GetNextPlayerIndex, GetPlayerIndexFromID };

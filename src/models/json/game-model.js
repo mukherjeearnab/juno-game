@@ -9,6 +9,7 @@ module.exports = {
         topCard: String,
         color: String,
         nextPlayer: Number,
+        next: Number,
     },
     players: [
         {
@@ -16,6 +17,7 @@ module.exports = {
             name: String,
             cards: [String],
             punished: Boolean,
+            moves: Number,
         },
     ],
 };

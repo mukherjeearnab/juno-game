@@ -9,7 +9,9 @@
         "direction": "Integer (0 = forward, 1 = backward)",
         "gameStatus": "Integer (0 = not yet started, 1 = started, 2 = finished)",
         "topCard": "String (color-num / color-special / wild-special)",
-        "color": "String (red / green / blue / yellow)"
+        "color": "String (red / green / blue / yellow)",
+        "nextPlayer": "Integer (0 - n-1 players index)",
+        "next": "Integer (0 = normal move by next player, 1 = color select by the current player (here the nextPlayer, as it is not updated))"
     },
     "players": [
         {
@@ -18,7 +20,8 @@
             "cards": [
                 "String (color-num / color-special / wild-special)"
             ],
-            "punished": "Boolean"
+            "punished": "Boolean",
+            "moves": "Integer (number of moves, at start is 0)"
         }
     ]
 }

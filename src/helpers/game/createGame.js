@@ -12,6 +12,7 @@ const game = {
         gameStatus: 0,
         topCard: "none",
         color: "none",
+        next: 0,
     },
     players: [],
 };
@@ -26,6 +27,7 @@ module.exports = async (player) => {
         name: player.name,
         cards: [],
         punished: false,
+        moves: 0,
     };
 
     // populate game details

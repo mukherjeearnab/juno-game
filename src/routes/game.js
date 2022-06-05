@@ -62,4 +62,24 @@ router.post("/api/game/start/:id", async (req, res) => {
     }
 });
 
+// player move
+router.post("/api/game/move/:id", async (req, res) => {
+    // acquire player and game information
+    const player = req.body.player;
+    const gameID = req.params.id;
+    try {
+        const reply = await Game.PlayerMove(player, gameID, req.app.get("socketio"));
+
+        // respond 404 if game is null
+        if (reply === null) {
+            res.status(404).send({ message: `Game ${gameID} Not Found!` });
+        }
+
+        res.status(200).send({ message: `Move started!` });
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/move)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
+
 module.exports = router;
