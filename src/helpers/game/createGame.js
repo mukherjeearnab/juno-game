@@ -1,5 +1,6 @@
 var shortHash = require("short-hash");
 const createDeck = require("./createDeck");
+const GameDB = require("../../models/game");
 
 const game = {
     id: "",
@@ -15,7 +16,7 @@ const game = {
     players: [],
 };
 
-module.exports = (player) => {
+module.exports = async (player) => {
     // populate game deck
     game.deck = createDeck();
 
@@ -32,6 +33,12 @@ module.exports = (player) => {
     game.creator = creator.id;
     game.id = shortHash(JSON.stringify(game));
 
-    // return game object
-    return game;
+    try {
+        const doc = await GameDB.create(game);
+        console.log("CREATED GAME", doc.id);
+        return doc.id;
+    } catch (err) {
+        console.log("MONGOOSE ERROR", err);
+        throw new Error(err.message);
+    }
 };
