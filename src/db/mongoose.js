@@ -8,7 +8,5 @@ console.log("Connecting MongoDB @", connectionString);
 // use mongoose to connect to the MongoDB instance
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
     useUnifiedTopology: true,
 });
