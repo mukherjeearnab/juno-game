@@ -1,0 +1,5 @@
+root:
+    room:
+        create: create new room.
+        join: join an already created room
+        status: get current status of room, such as play iteration, player cards, card deck, direction
