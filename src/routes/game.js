@@ -131,4 +131,31 @@ router.post("/api/game/color/:id", async (req, res) => {
     }
 });
 
+// draw card from the deck
+router.post("/api/game/draw/:id", async (req, res) => {
+    // acquire player and game information
+    const player = req.body.player;
+    const gameID = req.params.id;
+    try {
+        const reply = await Game.DrawCard(player, gameID, req.app.get("socketio"));
+
+        // log the game execution reply
+        console.log("EXEC REPLY (/api/game/draw/)", reply);
+
+        // respond 404 if game is null
+        if (reply.code === 0) {
+            res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
+        } else if (reply.code < 4) {
+            // else it's game rules error, send 403
+            res.status(403).send(reply);
+        } else {
+            // if everythin is okay, send 200 with success message
+            res.status(200).send({ message: reply.message });
+        }
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/draw)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
+
 module.exports = router;
