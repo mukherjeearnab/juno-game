@@ -91,7 +91,7 @@ router.post("/api/game/move/:id", async (req, res) => {
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
-        } else if (reply.code < 7) {
+        } else if (reply.code < 8) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
         } else {
@@ -118,7 +118,7 @@ router.post("/api/game/color/:id", async (req, res) => {
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
-        } else if (reply.code < 5) {
+        } else if (reply.code < 6) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
         } else {
@@ -145,7 +145,7 @@ router.post("/api/game/draw/:id", async (req, res) => {
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
-        } else if (reply.code < 4) {
+        } else if (reply.code < 5) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
         } else {

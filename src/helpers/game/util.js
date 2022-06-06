@@ -32,17 +32,23 @@ const SelectFirstTopCard = (game) => {
 // function to get next player index
 const GetNextPlayerIndex = (game, skip) => {
     if (game.status.direction === 1) {
+        // if game is in reverse direction
         return (game.status.nextPlayer + (game.players.length - skip)) % game.players.length;
     } else {
+        // if game is in forward direction
         return (game.status.nextPlayer + skip) % game.players.length;
     }
 };
 
 // function to get player index from player id
 const GetPlayerIndexFromID = (playerID, game) => {
+    // iteratively find the player's index using their player id
     for (let i = 0; i < game.players.length; i++) {
         if (game.players[i].id === playerID) return i;
     }
+
+    // if player is not found, return -1
+    return -1;
 };
 
 module.exports = { Shuffle, SelectFirstTopCard, GetNextPlayerIndex, GetPlayerIndexFromID };

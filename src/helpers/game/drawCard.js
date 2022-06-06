@@ -11,22 +11,28 @@ module.exports = async (player, gameID, socket) => {
             return { code: 0, message: "Game not found!" };
         }
 
+        // get player index (-1 of not found)
         const playerIndex = Utils.GetPlayerIndexFromID(player.id, game);
+
+        // if player id is -1, the player does not belong to the game
+        if (playerIndex === -1) {
+            return { code: 1, message: "Player does not belong to the game!" };
+        }
 
         // check if game is not yet started or finished
         if (game.status.gameStatus !== 1) {
-            return { code: 1, message: "Game not started or is already finished!" };
+            return { code: 2, message: "Game not started or is already finished!" };
         }
 
         // check if sending player is eligible
         if (playerIndex !== game.status.nextPlayer) {
-            return { code: 2, message: `Player ${player.id} is not eligible for drawing card from deck!` };
+            return { code: 3, message: `Player ${player.id} is not eligible for drawing card from deck!` };
         }
 
         // check if game round is color select or not
         if (game.status.next === 1) {
             return {
-                code: 3,
+                code: 4,
                 message: "nextPlayer needs to select a new color for top stack!Color change is no available!",
             };
         }
