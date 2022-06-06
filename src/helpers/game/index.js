@@ -4,5 +4,6 @@ const StartGame = require("./startGame");
 const PlayerMove = require("./playerMove");
 const ColorChange = require("./colorChange");
 const DrawCard = require("./drawCard");
+const UnoOne = require("./unoOne");
 
-module.exports = { CreateGame, JoinPlayer, StartGame, PlayerMove, ColorChange, DrawCard };
+module.exports = { CreateGame, JoinPlayer, StartGame, PlayerMove, ColorChange, DrawCard, UnoOne };

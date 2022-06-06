@@ -16,7 +16,7 @@ module.exports = {
             id: String,
             name: String,
             cards: [String],
-            punished: Boolean,
+            uno: Boolean,
             moves: Number,
         },
     ],

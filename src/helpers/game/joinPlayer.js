@@ -18,7 +18,7 @@ module.exports = async (player, gameID, socket) => {
             id: player.id,
             name: player.name,
             cards: [],
-            punished: false,
+            uno: false,
             moves: 0,
         };
 

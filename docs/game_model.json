@@ -20,7 +20,7 @@
             "cards": [
                 "String (color-num / color-special / wild-special)"
             ],
-            "punished": "Boolean",
+            "uno": "Boolean (If they declared uno before submitting 2nd last card)",
             "moves": "Integer (number of moves, at start is 0)"
         }
     ]

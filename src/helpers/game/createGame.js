@@ -27,7 +27,7 @@ module.exports = async (player) => {
         id: player.id,
         name: player.name,
         cards: [],
-        punished: false,
+        uno: false,
         moves: 0,
     };
 
