@@ -31,6 +31,7 @@ module.exports = async (player, gameID, socket) => {
         // fetch the selected card details
         let selectedCard = game.players[game.status.nextPlayer].cards[player.cardIndex];
         let cardComponents = selectedCard.split("-");
+        console.log("CARD COMPONENTS", cardComponents);
 
         // fetch the top card details
         let topCardComponents = game.status.topCard.split("-");
@@ -76,7 +77,6 @@ module.exports = async (player, gameID, socket) => {
                 }
             }
         } else {
-            console.log(cardComponents);
             // if card is a color card
             if (cardComponents[1] === "skip") {
                 // since it is skip card, only change next player 2 places
@@ -86,7 +86,6 @@ module.exports = async (player, gameID, socket) => {
                 game.status.direction = (game.status.direction + 1) % 2;
                 game.status.nextPlayer = Utils.GetNextPlayerIndex(game, 1);
             } else if (cardComponents[1] === "plus2") {
-                console.log("exec");
                 // add 2 new cards to next players stack
                 let nextPlayerIndex = Utils.GetNextPlayerIndex(game, 1);
                 for (let i = 0; i < 2; i++) {
