@@ -28,6 +28,11 @@ module.exports = async (player, gameID, socket) => {
             return { code: 3, message: "nextPlayer needs to select a new color for top stack!" };
         }
 
+        // check if game round is color select or not
+        if (!(player.cardIndex >= 0 && player.cardIndex < game.players[playerIndex].cards.length)) {
+            return { code: 4, message: "Invalid card index selected!" };
+        }
+
         // fetch the selected card details
         let selectedCard = game.players[game.status.nextPlayer].cards[player.cardIndex];
         let cardComponents = selectedCard.split("-");
@@ -40,14 +45,14 @@ module.exports = async (player, gameID, socket) => {
         if (game.players[game.status.nextPlayer].moves === 0) {
             // check if card is a action or wild card
             if (cardComponents[0] === "wild" || isNaN(cardComponents[1]))
-                return { code: 4, message: "First card drawn can't be action card or wild card!" };
+                return { code: 5, message: "First card drawn can't be action card or wild card!" };
         }
 
         // check if card is acceptable for top card stack
         if (cardComponents[0] !== "wild") {
             // check if card is same color or same number compared to top card
             if (!(cardComponents[0] === topCardComponents[0] || cardComponents[0] === topCardComponents[0]))
-                return { code: 5, message: "Selected card can't be accepted for new top card!" };
+                return { code: 6, message: "Selected card can't be accepted for new top card!" };
         }
 
         // action based on card type (ation or number or wild) [REMEMBER TO ADD CODE TO MOVE TO NEXT PLAYER AFTER COLOR SELECTION]
@@ -128,5 +133,3 @@ module.exports = async (player, gameID, socket) => {
         return { code: -1, message: `Internal Server Error!` };
     }
 };
-
-// TODO: Check if selected card index is available or not
