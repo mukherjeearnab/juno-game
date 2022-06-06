@@ -128,3 +128,5 @@ module.exports = async (player, gameID, socket) => {
         return { code: -1, message: `Internal Server Error!` };
     }
 };
+
+// TODO: Check if selected card index is available or not

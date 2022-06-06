@@ -104,4 +104,31 @@ router.post("/api/game/move/:id", async (req, res) => {
     }
 });
 
+// color change
+router.post("/api/game/color/:id", async (req, res) => {
+    // acquire player and game information
+    const player = req.body.player;
+    const gameID = req.params.id;
+    try {
+        const reply = await Game.ColorChange(player, gameID, req.app.get("socketio"));
+
+        // log the game execution reply
+        console.log("EXEC REPLY (/api/game/color/)", reply);
+
+        // respond 404 if game is null
+        if (reply.code === 0) {
+            res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
+        } else if (reply.code < 5) {
+            // else it's game rules error, send 403
+            res.status(403).send(reply);
+        } else {
+            // if everythin is okay, send 200 with success message
+            res.status(200).send({ message: reply.message });
+        }
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/color)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
+
 module.exports = router;
