@@ -2,22 +2,23 @@ var shortHash = require("short-hash");
 const createDeck = require("./createDeck");
 const GameDB = require("../../models/game");
 
-const game = {
-    id: "",
-    creator: "",
-    deck: [],
-    status: {
-        iteration: 0,
-        direction: 0,
-        gameStatus: 0,
-        topCard: "none",
-        color: "none",
-        next: 0,
-    },
-    players: [],
-};
-
 module.exports = async (player) => {
+    // new game instance
+    const game = {
+        id: "",
+        creator: "",
+        deck: [],
+        status: {
+            iteration: 0,
+            direction: 0,
+            gameStatus: 0,
+            topCard: "none",
+            color: "none",
+            next: 0,
+        },
+        players: [],
+    };
+
     // populate game deck
     game.deck = createDeck();
 

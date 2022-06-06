@@ -8,22 +8,22 @@ module.exports = async (player, gameID, socket) => {
 
         // respond 404 if game is null
         if (game === null) {
-            throw new Error("Game not found!");
+            return { code: 0, message: "Game not found!" };
         }
 
         // check if game is already started or finished
         if (game.status.gameStatus > 0) {
-            throw new Error("Game already started or finished!");
+            return { code: 1, message: "Game already started or finished!" };
         }
 
         // check if game starter is creator or not
         if (game.creator !== player.id) {
-            throw new Error("Player requesting to start game is not the game creator!");
+            return { code: 2, message: "Player requesting to start game is not the game creator!" };
         }
 
         // check if enough players are present, i.e. players > 1
         if (game.players.length < 2) {
-            throw new Error("Not Enough players to start game!");
+            return { code: 3, message: "Not Enough players to start game!" };
         }
 
         // change game status to started (1)
@@ -52,6 +52,6 @@ module.exports = async (player, gameID, socket) => {
         return gameID;
     } catch (err) {
         console.error(err);
-        return null;
+        return { code: -1, message: "Internal Server Error!" };
     }
 };
