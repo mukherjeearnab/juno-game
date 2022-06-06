@@ -7,11 +7,11 @@ module.exports = async (player, gameID, socket) => {
 
         // respond 404 if game is null
         if (game === null) {
-            throw new Error("Game not found!");
+            return { code: 0, message: "Game not found!" };
         }
 
         if (game.status.gameStatus > 0) {
-            throw new Error("Game already started or finished!");
+            return { code: 1, message: "Game already started or finished!" };
         }
 
         const newPlayer = {
@@ -33,9 +33,9 @@ module.exports = async (player, gameID, socket) => {
 
         console.log(`${player.id} JOINED GAME ${gameID}`);
 
-        return gameID;
+        return { code: 200, message: `Player ${player.id} joined Game ${gameID}` };
     } catch (err) {
         console.error(err);
-        return null;
+        return { code: -1, message: "Internal Server Error" };
     }
 };
