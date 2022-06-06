@@ -85,12 +85,19 @@ router.post("/api/game/move/:id", async (req, res) => {
     try {
         const reply = await Game.PlayerMove(player, gameID, req.app.get("socketio"));
 
-        // respond 404 if game is null
-        if (reply === null) {
-            res.status(404).send({ message: `Game ${gameID} Not Found!` });
-        }
+        // log the game execution reply
+        console.log("EXEC REPLY (/api/game/move/)", reply);
 
-        res.status(200).send({ message: `Move started!` });
+        // respond 404 if game is null
+        if (reply.code === 0) {
+            res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
+        } else if (reply.code < 6) {
+            // else it's game rules error, send 403
+            res.status(403).send(reply);
+        } else {
+            // if everythin is okay, send 200 with success message
+            res.status(200).send({ message: `Move started!` });
+        }
     } catch (err) {
         console.log("ROUTE ERROR (/api/game/move)", err);
         res.status(500).send({ message: "Server Error!" });
