@@ -91,7 +91,7 @@ router.post("/api/game/move/:id", async (req, res) => {
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
-        } else if (reply.code < 8) {
+        } else if (reply.code < 9) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
         } else {

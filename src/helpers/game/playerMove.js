@@ -54,11 +54,18 @@ module.exports = async (player, gameID, socket) => {
                 return { code: 6, message: "First card drawn can't be action card or wild card!" };
         }
 
+        // check if it is players last move and verify a valid card is drawn (no action or wild card allowed)
+        if (game.players[game.status.nextPlayer].cards.length === 1) {
+            // check if card is a action or wild card
+            if (cardComponents[0] === "wild" || isNaN(cardComponents[1]))
+                return { code: 7, message: "Last card drawn can't be action card or wild card!" };
+        }
+
         // check if card is acceptable for top card stack
         if (cardComponents[0] !== "wild") {
             // check if card is same color or same number compared to top card
             if (!(cardComponents[0] === topCardComponents[0] || cardComponents[0] === topCardComponents[0]))
-                return { code: 7, message: "Selected card can't be accepted for new top card!" };
+                return { code: 8, message: "Selected card can't be accepted for new top card!" };
         }
 
         // action based on card type (ation or number or wild) [REMEMBER TO ADD CODE TO MOVE TO NEXT PLAYER AFTER COLOR SELECTION]
