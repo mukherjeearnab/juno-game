@@ -65,5 +65,3 @@ module.exports = async (player, gameID, socket) => {
         return { code: -1, message: `Internal Server Error!` };
     }
 };
-
-// TODO add logic to PLAYER MOVE to add +2 cards if uno is not declared before submitting 2nd last card

@@ -113,6 +113,18 @@ module.exports = async (player, gameID, socket) => {
             }
         }
 
+        // check if it was 2nd last card and uno was declared or not (if not, add 2 new cards from the deck)
+        if (game.players[playerIndex].cards.length === 2 && !game.players[playerIndex].uno) {
+            // add 2 cards if uno was not declared
+            for (let i = 0; i < 2; i++) {
+                const card = game.deck.shift();
+                game.players[playerIndex].cards.push(card);
+            }
+        }
+
+        // if uno was declared, set uno flag to false
+        if (game.players[playerIndex].uno) game.players[playerIndex].uno = false;
+
         // remove the card from the players stack
         game.players[playerIndex].cards.splice(player.cardIndex, 1);
 
