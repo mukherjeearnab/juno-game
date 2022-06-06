@@ -5,6 +5,26 @@ const Game = require("../helpers/game");
 const router = new express.Router();
 
 // create new game
+router.get("/api/game/get/:id", async (req, res) => {
+    // acquire game id
+    const gameID = req.params.id;
+
+    try {
+        const reply = await Game.GetGame(gameID);
+        // respond 404 if game is null
+        if (reply.code === 0) {
+            res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!`, game: reply.game });
+        } else if (reply.code === 1) {
+            // else it's game rules error, send 403
+            res.status(200).send(reply);
+        }
+    } catch (err) {
+        console.log("ROUTE ERROR (/api/game/get)", err);
+        res.status(500).send({ message: "Server Error!" });
+    }
+});
+
+// create new game
 router.post("/api/game/create", async (req, res) => {
     // acquire player and creator information
     const player = req.body.player;
