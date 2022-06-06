@@ -49,7 +49,7 @@ module.exports = async (player, gameID, socket) => {
 
         console.log(`GAME ${gameID} has been started!`);
 
-        return gameID;
+        return { code: 200, message: `Player ${player.id} started Game ${gameID}` };
     } catch (err) {
         console.error(err);
         return { code: -1, message: "Internal Server Error!" };

@@ -30,15 +30,19 @@ router.post("/api/game/join/:id", async (req, res) => {
     try {
         const reply = await Game.JoinPlayer(player, gameID, req.app.get("socketio"));
 
+        // log the game execution reply
+        console.log("EXEC REPLY (/api/game/join/)", reply);
+
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
         } else if (reply.code < 2) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
+        } else {
+            // if everythin is okay, send 200 with success message
+            res.status(200).send({ message: `Player ${player.id} joined Game ${gameID} successfully!` });
         }
-
-        res.status(200).send({ message: `Player ${player.id} joined Game ${gameID} successfully!` });
     } catch (err) {
         console.log("ROUTE ERROR (/api/game/join)", err);
         res.status(500).send({ message: "Server Error!" });
@@ -54,16 +58,19 @@ router.post("/api/game/start/:id", async (req, res) => {
         // Start the game and await for execution result
         const reply = await Game.StartGame(player, gameID, req.app.get("socketio"));
 
+        // log the game execution reply
+        console.log("EXEC REPLY (/api/game/start/)", reply);
+
         // respond 404 if game is null
         if (reply.code === 0) {
             res.status(404).send({ code: reply.code, message: `Game ${gameID} Not Found!` });
-        } else if (reply.code > 0) {
+        } else if (reply.code < 4) {
             // else it's game rules error, send 403
             res.status(403).send(reply);
+        } else {
+            // if everythin is okay, send 200 with success message
+            res.status(200).send({ message: `Game ${gameID} has been successfully started!` });
         }
-
-        // if everythin is okay, send 200 with success message
-        res.status(200).send({ message: `Game ${gameID} has been successfully started!` });
     } catch (err) {
         console.log("ROUTE ERROR (/api/game/start)", err);
         res.status(500).send({ message: "Server Error!" });
